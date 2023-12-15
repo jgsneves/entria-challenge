@@ -1,6 +1,5 @@
 import Router from "koa-router";
 import { createPix, getPixById, getPixes } from "./pix.service";
-import { PixSchema } from "./pix.model";
 import { createPixSchema } from "./dto/create-pix.dto";
 
 const router = new Router();

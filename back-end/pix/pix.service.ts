@@ -1,26 +1,14 @@
 import { pixRepository } from "../repositories/pix.resposity";
-import { PixSchema } from "./pix.model";
+import { Pix } from "./pix.model";
 
 export const getPixes = async () => {
-  try {
-    return await pixRepository.getAll();
-  } catch (error) {
-    console.log("It was not possible to retrieve all PIXs", error);
-  }
+  return await pixRepository.getAll();
 };
 
 export const getPixById = async (id: string) => {
-  try {
-    return await pixRepository.getOne(id);
-  } catch (error) {
-    console.log(`It was not possible to retrieve a PIX with id: ${id}`, error);
-  }
+  return await pixRepository.getOne(id);
 };
 
-export const createPix = async (pix: any) => {
-  try {
-    return await pixRepository.createOne(pix);
-  } catch (error) {
-    console.log("It was not possible to create a new PIX", error);
-  }
+export const createPix = async (pix: Pix, id?: string) => {
+  return await pixRepository.createOne(pix, id);
 };

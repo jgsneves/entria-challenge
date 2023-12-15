@@ -1,9 +1,10 @@
-import { pixModel } from "../pix/pix.model";
+import { Pix, PixModel } from "../pix/pix.model";
+import { Model } from "mongoose";
 
 class PixRepository {
-  private readonly pixMongoDbModel: typeof pixModel;
+  private readonly pixMongoDbModel: Model<Pix>;
 
-  constructor(pixModelInstance: typeof pixModel) {
+  constructor(pixModelInstance: Model<Pix>) {
     this.pixMongoDbModel = pixModelInstance;
   }
 
@@ -12,12 +13,12 @@ class PixRepository {
   }
 
   public async getOne(id: string) {
-    return pixModel.findById(id);
+    return this.pixMongoDbModel.findById(id);
   }
 
-  public async createOne(pix: any) {
-    return pixModel.create(pix);
+  public async createOne(pix: Pix, id?: string) {
+    return this.pixMongoDbModel.create({ ...pix, _id: id });
   }
 }
 
-export const pixRepository = new PixRepository(pixModel);
+export const pixRepository = new PixRepository(PixModel);

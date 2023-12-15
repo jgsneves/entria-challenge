@@ -1,11 +1,11 @@
 import mongoose from "../services/mongo-db-service/mongo-db.service";
+import { pixSchema } from "./pix.schema";
 
-const pixSchema = new mongoose.Schema({
-  datetime: { type: String, required: true },
-  debitParty: { type: String, required: true },
-  creditParty: { type: String, required: true },
-  value: { type: Number, required: true },
-});
+export abstract class Pix {
+  datetime: string;
+  debitParty: string;
+  creditParty: string;
+  value: number;
+}
 
-export const pixModel = mongoose.model("Pix", pixSchema);
-export type PixSchema = typeof pixSchema;
+export const PixModel = mongoose.model<Pix>("Pix", pixSchema);
