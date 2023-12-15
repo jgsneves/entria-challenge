@@ -1,0 +1,22 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug backend",
+      "cwd": "${workspaceRoot}/back-end",
+      "skipFiles": ["/node_modules"],
+      "args": ["index.ts"],
+      "console": "integratedTerminal",
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "${workspaceRoot}/back-end/node_modules/ts-node/register/transpile-only.js"
+      ]
+    }
+  ]
+}
