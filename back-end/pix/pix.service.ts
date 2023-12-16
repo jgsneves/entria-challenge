@@ -1,14 +1,24 @@
-import { pixRepository } from "../repositories/pix.resposity";
+import { PixRepository, pixRepository } from "./pix.resposity";
 import { Pix } from "./pix.model";
 
-export const getPixes = async () => {
-  return await pixRepository.getAll();
-};
+export class PixService {
+  private readonly pixRepository: PixRepository;
 
-export const getPixById = async (id: string) => {
-  return await pixRepository.getOne(id);
-};
+  constructor(pixRepository: PixRepository) {
+    this.pixRepository = pixRepository;
+  }
 
-export const createPix = async (pix: Pix, id?: string) => {
-  return await pixRepository.createOne(pix, id);
-};
+  public async getPixes() {
+    return this.pixRepository.getAll();
+  }
+
+  public async getPixById(id: string) {
+    return await pixRepository.getOne(id);
+  }
+
+  public async createPix(pix: Pix, id?: string) {
+    return await pixRepository.createOne(pix, id);
+  }
+}
+
+export const pixService = new PixService(pixRepository);

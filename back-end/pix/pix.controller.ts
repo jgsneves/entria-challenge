@@ -1,4 +1,4 @@
-import { createPix, getPixById, getPixes } from "./pix.service";
+import { pixService } from "./pix.service";
 import { CreatePixDto, createPixSchema } from "./dto/create-pix.dto";
 import {
   BadRequestError,
@@ -19,12 +19,12 @@ import { AuthMiddleware } from "../middlewares/AuthMiddleware";
 export class PixController {
   @Get()
   async findAll(): Promise<Pix[]> {
-    return (await getPixes()).map((pix) => pix.toObject());
+    return (await pixService.getPixes()).map((pix) => pix.toObject());
   }
 
   @Get("/:id")
   async findOne(@Param("id") id: string): Promise<Pix> {
-    const pix = await getPixById(id);
+    const pix = await pixService.getPixById(id);
 
     if (!pix) throw new NotFoundError();
 
@@ -43,7 +43,10 @@ export class PixController {
       const id = new mongoose.Types.ObjectId().toString();
 
       return (
-        await createPix({ datetime, creditParty, debitParty, value }, id)
+        await pixService.createPix(
+          { datetime, creditParty, debitParty, value },
+          id
+        )
       ).toObject();
     } catch (error) {
       throw new BadRequestError(JSON.stringify(error));
