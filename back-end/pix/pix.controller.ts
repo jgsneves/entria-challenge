@@ -1,34 +1,52 @@
-import Router from "koa-router";
 import { createPix, getPixById, getPixes } from "./pix.service";
-import { createPixSchema } from "./dto/create-pix.dto";
+import { CreatePixDto, createPixSchema } from "./dto/create-pix.dto";
+import {
+  BadRequestError,
+  Body,
+  Get,
+  JsonController,
+  NotFoundError,
+  Param,
+  Post,
+  UseBefore,
+} from "routing-controllers";
+import { Pix } from "./pix.model";
+import mongoose from "../services/mongo-db-service/mongo-db.service";
+import { AuthMiddleware } from "../middlewares/AuthMiddleware";
 
-const router = new Router();
-const pixRoute = "/pix";
-
-router.get(`${pixRoute}`, async (ctx) => {
-  ctx.status = 200;
-  ctx.body = await getPixes();
-});
-
-router.get(`${pixRoute}/:id`, async (ctx) => {
-  ctx.status = 200;
-  ctx.body = await getPixById(ctx.params.id);
-});
-
-router.post(`${pixRoute}`, async (ctx) => {
-  try {
-    const createPixDto = createPixSchema.parse(ctx.request.body);
-
-    const datetime = new Date().toISOString();
-
-    const result = await createPix({ ...createPixDto, datetime });
-
-    ctx.status = 201;
-    ctx.body = result;
-  } catch (error) {
-    ctx.status = 400;
-    ctx.body = error;
+@JsonController("/pix")
+@UseBefore(AuthMiddleware)
+export class PixController {
+  @Get()
+  async findAll(): Promise<Pix[]> {
+    return (await getPixes()).map((pix) => pix.toObject());
   }
-});
 
-export default router;
+  @Get("/:id")
+  async findOne(@Param("id") id: string): Promise<Pix> {
+    const pix = await getPixById(id);
+
+    if (!pix) throw new NotFoundError();
+
+    return pix.toObject();
+  }
+
+  @Post()
+  async create(
+    @Body() createPixDto: CreatePixDto
+  ): Promise<Pix | BadRequestError> {
+    try {
+      const { creditParty, debitParty, value } =
+        createPixSchema.parse(createPixDto);
+
+      const datetime = new Date().toISOString();
+      const id = new mongoose.Types.ObjectId().toString();
+
+      return (
+        await createPix({ datetime, creditParty, debitParty, value }, id)
+      ).toObject();
+    } catch (error) {
+      throw new BadRequestError(JSON.stringify(error));
+    }
+  }
+}

@@ -5,3 +5,5 @@ export const createPixSchema = z.object({
   creditParty: z.string(),
   value: z.number(),
 });
+
+export type CreatePixDto = z.infer<typeof createPixSchema>;
