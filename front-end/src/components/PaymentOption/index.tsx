@@ -66,7 +66,7 @@ export const PaymentOption = ({
           {highlightText}
         </Text>
         {flag && (
-          <Box gridColumn="1 / span 2" bgColor="primary">
+          <Box gridColumn="1 / span 2" bgColor="primary.300">
             {flag}
           </Box>
         )}

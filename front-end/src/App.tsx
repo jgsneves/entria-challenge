@@ -14,7 +14,7 @@ function App() {
       <Box as="main" minH="85vh">
         <Charge />
       </Box>
-      <Flex as="footer" alignItems="center" mx="auto">
+      <Flex as="footer" alignItems="center" mx="auto" py={5}>
         <Text textAlign="center" mr={2} color="gray.400" fontSize="smaller">
           Pagamento 100% seguro via:
         </Text>

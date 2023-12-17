@@ -1,11 +1,23 @@
-import { Flex, Text } from "@chakra-ui/react";
-import { Payment } from "../Payment";
-import { PaymentType } from "../Payment/PaymentType";
-import { PaymentOption } from "../PaymentOption";
 import { useState } from "react";
+import { InitialStage } from "./stages/InitialStage";
+import { Stage } from "./StageEnum";
+import { PixStage } from "./stages/PixStage";
+
+interface OptionPayment {
+  amount: number;
+  value: number;
+}
+
+export interface Option {
+  id: number;
+  total: number;
+  payment: OptionPayment;
+}
 
 export const Charge = () => {
-  const [selectedOptionId, setSelectedOptionId] = useState<number>(1);
+  const [selectedPaymentOptionId, setSelectedPaymentOptionId] =
+    useState<number>(1);
+  const [currentStage, setCurrentStage] = useState<Stage>(Stage.INITIAL);
 
   const options = [
     {
@@ -35,45 +47,19 @@ export const Charge = () => {
   ];
 
   const handleOptionOnClick = (id: number) => {
-    setSelectedOptionId(id);
+    setSelectedPaymentOptionId(id);
   };
 
+  if (currentStage === Stage.PIX) {
+    return <PixStage />;
+  }
+
   return (
-    <Flex flexDirection="column">
-      <Text as="b" textAlign="center" py={6}>
-        João, como você quer pagar?
-      </Text>
-      <Payment type={PaymentType.PIX}>
-        <PaymentOption
-          amount={1}
-          selected={selectedOptionId === 1}
-          handleOptionOnClick={() => handleOptionOnClick(1)}
-          value={30500}
-          highlightText="Ganhe 3% de cashback"
-          flag={
-            <Text color="white" px={2} py={1} fontSize="smaller">
-              <Text color="white" as="b">
-                R$ 300
-              </Text>{" "}
-              de volta no seu Pix na hora
-            </Text>
-          }
-        />
-      </Payment>
-      <Payment type={PaymentType.DEFERRED}>
-        {options.map((option) => {
-          return (
-            <PaymentOption
-              key={option.id}
-              amount={option.payment.amount}
-              total={option.total}
-              value={option.payment.value}
-              selected={selectedOptionId === option.id}
-              handleOptionOnClick={() => handleOptionOnClick(option.id)}
-            />
-          );
-        })}
-      </Payment>
-    </Flex>
+    <InitialStage
+      handleOptionOnClick={handleOptionOnClick}
+      options={options}
+      selectedPaymentOptionId={selectedPaymentOptionId}
+      setCurrentStage={setCurrentStage}
+    />
   );
 };
