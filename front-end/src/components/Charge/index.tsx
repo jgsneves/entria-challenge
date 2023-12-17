@@ -2,6 +2,7 @@ import { useState } from "react";
 import { InitialStage } from "./stages/InitialStage";
 import { Stage } from "./StageEnum";
 import { PixStage } from "./stages/PixStage";
+import { CreditCardStage } from "./stages/CreditCardStage";
 
 interface OptionPayment {
   amount: number;
@@ -17,7 +18,7 @@ export interface Option {
 export const Charge = () => {
   const [selectedPaymentOptionId, setSelectedPaymentOptionId] =
     useState<number>(1);
-  const [currentStage, setCurrentStage] = useState<Stage>(Stage.INITIAL);
+  const [currentStage, setCurrentStage] = useState<Stage>(Stage.CREDIT_CARD);
 
   const options = [
     {
@@ -52,6 +53,10 @@ export const Charge = () => {
 
   if (currentStage === Stage.PIX) {
     return <PixStage />;
+  }
+
+  if (currentStage === Stage.CREDIT_CARD) {
+    return <CreditCardStage />;
   }
 
   return (

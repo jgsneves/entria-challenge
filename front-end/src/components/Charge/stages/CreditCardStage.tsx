@@ -4,43 +4,69 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Box,
   Button,
   Divider,
   Flex,
+  FormLabel,
+  Input,
+  Select,
   Text,
 } from "@chakra-ui/react";
 import { Stepper } from "../../Stepper";
 
-export const PixStage = () => {
+export const CreditCardStage = () => {
   return (
     <Flex flexDirection="column" alignItems="center" maxW={400} mx="auto">
       <Text as="b" textAlign="center" py={6} fontSize="large">
-        João, pague a entrada de R$ 15.300,00 pelo Pix
+        João, pague o restante em 1x no cartão
       </Text>
-      <Box
-        w={258}
-        h={258}
-        border="1px solid"
-        borderColor="brand.300"
-        borderRadius="0.375rem"
-      >
-        QRCODE
-      </Box>
 
-      <Button
-        backgroundColor="primary.300"
-        color="white"
-        _hover={{
-          bgColor: "primary.100",
-        }}
-        width="fit-content"
-        mt={5}
-        onClick={() => {}}
-        size="sm"
-      >
-        Clique para copiar QR CODE
-      </Button>
+      <form>
+        <FormLabel mr={0}>
+          Nome completo
+          <Input id="name" name="name" />
+        </FormLabel>
+        <FormLabel mr={0}>
+          CPF
+          <Input id="cpf" name="cpf" />
+        </FormLabel>
+        <FormLabel mr={0}>
+          Número do cartão
+          <Input id="creditCardNumber" name="creditCardNumber" />
+        </FormLabel>
+
+        <Flex wrap="wrap" justifyContent="space-between">
+          <FormLabel maxW="48%" mr={0}>
+            Vencimento
+            <Input id="creditCardExpiration" name="creditCardExpiration" />
+          </FormLabel>
+          <FormLabel maxW="48%" mr={0}>
+            CVV
+            <Input id="cvv" name="cvv" />
+          </FormLabel>
+        </Flex>
+
+        <FormLabel mr={0}>
+          Parcelas
+          <Select>
+            <option>1x de R$ 15.300,00</option>
+          </Select>
+        </FormLabel>
+
+        <Button
+          backgroundColor="primary.300"
+          color="white"
+          _hover={{
+            bgColor: "primary.100",
+          }}
+          mt={2}
+          w="100%"
+          onClick={() => {}}
+          size="sm"
+        >
+          Continuar
+        </Button>
+      </form>
 
       <Text fontSize="medium" color="gray.300" mt={5}>
         Prazo de pagamento:
@@ -50,7 +76,7 @@ export const PixStage = () => {
       </Text>
 
       <Flex mt={5} w="100%" justifyContent="space-between">
-        <Stepper index={0} steps={["1 entrada no Pix", "2 no cartão"]} />
+        <Stepper index={1} steps={["1 entrada no Pix", "2 no cartão"]} />
         <Flex direction="column" justifyContent="space-between">
           <Text fontWeight={700}>R$ 15.300,00</Text>
           <Text fontWeight={700}>R$ 15.300,00</Text>

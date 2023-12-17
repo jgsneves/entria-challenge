@@ -20,7 +20,7 @@ export const InitialStage = ({
 }: Props) => {
   return (
     <Flex flexDirection="column">
-      <Text as="b" textAlign="center" py={6}>
+      <Text as="b" textAlign="center" py={6} fontSize="large">
         João, como você quer pagar?
       </Text>
       <Payment type={PaymentType.PIX}>
