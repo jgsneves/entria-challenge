@@ -31,9 +31,9 @@ export const InitialStage = ({
           value={30500}
           highlightText="Ganhe 3% de cashback"
           flag={
-            <Text color="white" px={2} py={1} fontSize="smaller">
+            <Text color="white" fontSize="smaller">
               <Text color="white" as="b">
-                R$ 300
+                🤑 R$ 300
               </Text>{" "}
               de volta no seu Pix na hora
             </Text>

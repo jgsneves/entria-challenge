@@ -21,8 +21,8 @@ Como possibilitar ao usuário o pagamento de uma cobrança PIX através de créd
 1. Autenticação: o usuário deve se identificar com e-mail e senha para consumir endpoints
 2. Feature Cobrança: CRUD da entidade cobrança, com valor e favorecido. Deve controlar também o estado da cobrança. Quatro fases: inicial, aguardando pagamento à vista, aguardando pagamento parcelado e pago.
 3. Feature Pagamento: CRUD da entidade pagamento, que pode ser de dois tipos: pagamento à vista ou pagamento parcelado.
-4. integraçao com gateway de pagamento para geração de pagamento Instantâneo PIX: integração com API de geração de pagamento instantâneo PIX, com retorno de QRCode dinâmico e detalhes do pagamento.
-5. integração com sistema openfinance: forcendo os dados do usuário deve ser possível retornar condições de financiamento (quantidade de parcelas e juros).
+4. Integraçao com gateway de pagamento para geração de pagamento Instantâneo PIX: integração com API de geração de pagamento instantâneo PIX, com retorno de QRCode dinâmico e detalhes do pagamento.
+5. Integração com sistema openfinance: forcendo os dados do usuário deve ser possível retornar condições de financiamento (quantidade de parcelas e juros).
 
 ### Frontend
 

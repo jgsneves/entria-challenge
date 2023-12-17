@@ -1,6 +1,7 @@
-import { Box, Flex, Grid, Text } from "@chakra-ui/react";
+import { Flex, Grid, Text } from "@chakra-ui/react";
 import { CurrencyUtils } from "../../utils/CurrencyUtils";
-import { Radio } from "./Radio";
+import { Radio } from "./components/Radio";
+import { Flag } from "./components/Flag";
 
 interface Props {
   total?: number;
@@ -65,11 +66,7 @@ export const PaymentOption = ({
         >
           {highlightText}
         </Text>
-        {flag && (
-          <Box gridColumn="1 / span 2" bgColor="primary.300">
-            {flag}
-          </Box>
-        )}
+        {flag && <Flag selected={selected}>{flag}</Flag>}
       </Grid>
       <Radio selected={selected} />
     </Flex>

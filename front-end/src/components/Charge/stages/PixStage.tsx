@@ -67,7 +67,7 @@ export const PixStage = () => {
       <Accordion allowToggle w="100%" mt={5}>
         <AccordionItem>
           <AccordionButton px={0} py={4}>
-            <Text flex={1} textAlign="left">
+            <Text flex={1} textAlign="left" fontWeight={700}>
               Como funciona?
             </Text>
             <AccordionIcon />

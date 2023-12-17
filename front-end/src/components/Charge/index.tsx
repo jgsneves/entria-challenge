@@ -18,7 +18,7 @@ export interface Option {
 export const Charge = () => {
   const [selectedPaymentOptionId, setSelectedPaymentOptionId] =
     useState<number>(1);
-  const [currentStage, setCurrentStage] = useState<Stage>(Stage.CREDIT_CARD);
+  const [currentStage, setCurrentStage] = useState<Stage>(Stage.INITIAL);
 
   const options = [
     {
