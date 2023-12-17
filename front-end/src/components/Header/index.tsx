@@ -1,19 +1,16 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { WooviLogo } from "../WooviLogo";
 
 export const Header = () => {
   return (
-    <Box as="header" bgColor="brand.300">
+    <Box as="header" p={3}>
       <Flex
         mx="auto"
         maxWidth={1200}
-        justifyContent="space-between"
+        justifyContent="center"
         alignItems="center"
       >
-        <WooviLogo />
-        <Text fontWeight="bold" color="white" fontSize="larger">
-          Plataforma PIX
-        </Text>
+        <WooviLogo color="green" />
       </Flex>
     </Box>
   );
