@@ -3,9 +3,30 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""A merchant charge"""
+type ChargeModel {
+  _id: String!
+  installments: Int
+  state: ChargeState!
+  value: Float!
+}
+
+enum ChargeState {
+  CREDIT_CARD_PAYMENT
+  INITIAL
+  PAID
+  PIX_PAYMENT
+}
+
 type Mutation {
+  """Create a new Charge"""
+  createCharge(value: Float!): ChargeModel!
+
   """Create a new Pix"""
   createPix(creditParty: String!, debitParty: String!, value: Float!): PixModel!
+
+  """Update a Charge"""
+  updateCharge(data: UpdateChargeArgs!, id: String!): ChargeModel!
 }
 
 """A PIX instant financial transfer"""
@@ -18,9 +39,21 @@ type PixModel {
 }
 
 type Query {
+  """Retrieves a Charge by id."""
+  getChargeById(id: String!): ChargeModel!
+
+  """Retrieves all Charges"""
+  getCharges: [ChargeModel!]!
+
   """Retrieves a Pix by id."""
   getPixById(id: String!): PixModel!
 
   """Retrieves all Pixes"""
   getPixes: [PixModel!]!
+}
+
+input UpdateChargeArgs {
+  installments: Float
+  state: String
+  value: Float
 }

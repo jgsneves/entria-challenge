@@ -13,6 +13,7 @@ Como possibilitar ao usuário o pagamento de uma cobrança PIX através de créd
 - O usuário/pagador poderá escolher pagar de forma parcelada. Neste caso, deverá efetuar o pagamento da primeira parcela à vista, através de pagamento instantâneo PIX.
 - O sistema de pagamento deve gerar um QRCode dinâmico, possibilitando ao usuário efetuar o pagamento à vista ou da primeira parcela, caso opte pela modalidade de pagamento parcelado.
 - O sistema de pagamento deve integrar com um gateway de pagamento, possibilitando ao usuário o pagamento através de cartão de crédito.
+- O sistema de pagamento deve integrar com um avaliador de risco que retornará as condições de parcelamento.
 
 ## Design da Solução
 
@@ -22,7 +23,7 @@ Como possibilitar ao usuário o pagamento de uma cobrança PIX através de créd
 2. Feature Cobrança: CRUD da entidade cobrança, com valor e favorecido. Deve controlar também o estado da cobrança. Quatro fases: inicial, aguardando pagamento à vista, aguardando pagamento parcelado e pago.
 3. Feature Pagamento: CRUD da entidade pagamento, que pode ser de dois tipos: pagamento à vista ou pagamento parcelado.
 4. Integraçao com gateway de pagamento para geração de pagamento Instantâneo PIX: integração com API de geração de pagamento instantâneo PIX, com retorno de QRCode dinâmico e detalhes do pagamento.
-5. Integração com sistema openfinance: forcendo os dados do usuário deve ser possível retornar condições de financiamento (quantidade de parcelas e juros).
+5. Integração com sistema openfinance: forcendo os dados do usuário deve ser possível retornar condições de parcelamento (quantidade de parcelas e juros).
 
 ### Frontend
 

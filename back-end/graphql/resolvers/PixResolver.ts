@@ -2,7 +2,6 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { PixModel as GraphQlPixModel } from "../models/PixModel";
 import { pixService } from "../../pix/pix.service";
 import { Pix } from "../../pix/pix.model";
-import mongoose from "../../services/mongo-db-service/mongo-db.service";
 
 @Resolver(GraphQlPixModel)
 export class PixResolver {
@@ -17,11 +16,7 @@ export class PixResolver {
     description: "Retrieves a Pix by id.",
   })
   async getPixById(@Arg("id") id: string): Promise<Pix> {
-    const result = await pixService.getPixById(id);
-
-    if (!result) throw new Error("Pix not found!");
-
-    return result;
+    return await pixService.getPixById(id);
   }
 
   @Mutation(() => GraphQlPixModel, {
@@ -32,13 +27,6 @@ export class PixResolver {
     @Arg("debitParty") debitParty: string,
     @Arg("value") value: number
   ): Promise<Pix> {
-    const pix: Pix = {
-      creditParty,
-      datetime: new Date().toISOString(),
-      debitParty,
-      value,
-    };
-    const id = new mongoose.Types.ObjectId();
-    return await pixService.createPix(pix, id.toString());
+    return await pixService.createPix({ creditParty, debitParty, value });
   }
 }
