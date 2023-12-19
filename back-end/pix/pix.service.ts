@@ -1,5 +1,7 @@
-import { PixRepository, pixRepository } from "./pix.resposity";
+import { PixRepository, pixRepository } from "./pix.repository";
 import { Pix } from "./pix.model";
+import mongoose from "../services/mongo-db-service/mongo-db.service";
+import { NotFoundError } from "routing-controllers";
 
 export class PixService {
   private readonly pixRepository: PixRepository;
@@ -13,11 +15,17 @@ export class PixService {
   }
 
   public async getPixById(id: string) {
-    return await pixRepository.getOne(id);
+    const result = await this.pixRepository.getOne(id);
+
+    if (!result) throw new NotFoundError();
+
+    return result;
   }
 
-  public async createPix(pix: Pix, id?: string) {
-    return await pixRepository.createOne(pix, id);
+  public async createPix(pix: Omit<Pix, "datetime">) {
+    const datetime = new Date().toISOString();
+    const id = new mongoose.Types.ObjectId().toString();
+    return await this.pixRepository.createOne({ ...pix, datetime }, id);
   }
 }
 

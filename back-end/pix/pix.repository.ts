@@ -25,7 +25,7 @@ export class PixRepository {
     }
   }
 
-  public async createOne(pix: Pix, id?: string) {
+  public async createOne(pix: Pix, id: string) {
     try {
       return this.pixMongoDbModel.create({ ...pix, _id: id });
     } catch (error) {
