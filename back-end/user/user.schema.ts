@@ -7,4 +7,5 @@ export const userSchema = new Schema<UserSchema>({
   _id: String,
   email: String,
   password: String,
+  name: String,
 });

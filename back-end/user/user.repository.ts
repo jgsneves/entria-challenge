@@ -33,14 +33,6 @@ export class UserRepository {
     }
   }
 
-  public async getOneByEmailAndPassword(email: string, password: string) {
-    try {
-      return this.userMongoDbModel.findOne({ email, password });
-    } catch (error) {
-      throw new InternalServerError(JSON.stringify(error));
-    }
-  }
-
   public async createOne(user: User, id?: string) {
     try {
       return this.userMongoDbModel.create({ ...user, _id: id });

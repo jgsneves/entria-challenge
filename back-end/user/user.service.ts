@@ -31,7 +31,7 @@ export class UserService {
         schema.password,
         Number(JWT_SALT_OR_ROUNDS)
       );
-      const dto: User = { ...schema, password: hash };
+      const dto: User = { ...schema, password: hash, name: user.name };
       const id = new mongoose.Types.ObjectId().toString();
 
       return userRepository.createOne(dto, id);

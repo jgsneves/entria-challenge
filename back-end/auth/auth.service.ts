@@ -4,7 +4,7 @@ import * as bcrypt from "bcrypt";
 import { JWT_SECRET } from "../config";
 import jwt from "jsonwebtoken";
 import { BadRequestError } from "routing-controllers";
-import { createUserSchema } from "../user/dto/create-user.dto";
+import { SignInDto, signInSchema } from "./dto/sign-in.dto";
 
 export class AuthService {
   private readonly userService: UserService;
@@ -13,9 +13,9 @@ export class AuthService {
     this.userService = userService;
   }
 
-  public async handleSignIn(userDto: User) {
+  public async handleSignIn(signInDto: SignInDto) {
     try {
-      const schema = createUserSchema.parse(userDto);
+      const schema = signInSchema.parse(signInDto);
 
       if (!JWT_SECRET) {
         throw new Error("JWT Secret not provided");
@@ -36,7 +36,7 @@ export class AuthService {
         throw new BadRequestError();
       }
 
-      const payload = { email: user.email, id: user._id };
+      const payload = { email: user.email, id: user._id, name: user.name };
       const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
 
       return {
