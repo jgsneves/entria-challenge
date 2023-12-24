@@ -2,8 +2,17 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { Header } from "./components/Header";
 import { Charge } from "./components/Charge";
 import { WooviLogo } from "./components/WooviLogo";
+import { useCookies } from "react-cookie";
+import { AUTH_TOKEN_COOKIE } from "./constants/cookies";
+import { Login } from "./components/Login";
 
 function App() {
+  const [cookies] = useCookies([AUTH_TOKEN_COOKIE]);
+
+  if (!cookies[AUTH_TOKEN_COOKIE]) {
+    return <Login />;
+  }
+
   return (
     <Flex
       maxW={{ base: "90vw", xl: "1200px" }}

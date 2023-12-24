@@ -1,0 +1,58 @@
+"""Exposes a URL that specifies the behaviour of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behaviour of this scalar."""
+  url: String!
+) on SCALAR
+
+"""A merchant charge"""
+type ChargeModel {
+  _id: String!
+  installments: Int
+  state: ChargeState!
+  value: Float!
+  correlationId: String
+  valueWithCredit: Float
+  pixChargeId: String
+}
+
+enum ChargeState {
+  INITIAL
+  PIX_PAYMENT
+  CREDIT_CARD_PAYMENT
+  PAID
+}
+
+type Mutation {
+  """Create a new Pix"""
+  createPix(value: Float!, debitParty: String!, creditParty: String!): PixModel!
+
+  """Create a new Charge"""
+  createCharge(value: Float!): ChargeModel!
+
+  """Update a Charge"""
+  updateCharge(pixChargeId: String, valueWithCredit: Float, correlationId: String, state: ChargeState, value: Float, installments: Float, id: String!): ChargeModel!
+}
+
+"""A PIX instant financial transfer"""
+type PixModel {
+  _id: String!
+  creditParty: String!
+  datetime: String!
+  debitParty: String!
+  value: Float!
+}
+
+type Query {
+  """Retrieves all Pixes"""
+  getPixes: [PixModel!]!
+
+  """Retrieves a Pix by id."""
+  getPixById(id: String!): PixModel!
+
+  """Retrieves all Charges"""
+  getCharges: [ChargeModel!]!
+
+  """Retrieves a Charge by id."""
+  getChargeById(id: String!): ChargeModel!
+}
+

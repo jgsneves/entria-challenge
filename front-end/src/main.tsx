@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
+import { RelayEnvironmentProvider } from "react-relay";
 import "@fontsource/nunito";
+import environment from "./relay/environment.ts";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router/index.tsx";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const colors = {
   brand: {
@@ -23,10 +27,16 @@ const fonts = {
 
 const theme = extendTheme({ colors, fonts });
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <App />
-    </ChakraProvider>
+    <RelayEnvironmentProvider environment={environment}>
+      <ChakraProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ChakraProvider>
+    </RelayEnvironmentProvider>
   </React.StrictMode>
 );
