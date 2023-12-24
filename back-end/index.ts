@@ -8,16 +8,23 @@ import graphqlRouter from "./graphql/router";
 import { useKoaServer } from "routing-controllers";
 import { AuthController } from "./auth/auth.controller";
 import { ChargeController } from "./charge/charge.controller";
+import { OpenFinanceController } from "./open-finance/open-finance.controller";
 
 const App = new Koa();
 const port = 8000;
 
+App.use(cors());
+
 useKoaServer(App, {
-  controllers: [PixController, AuthController, ChargeController],
+  controllers: [
+    PixController,
+    AuthController,
+    ChargeController,
+    OpenFinanceController,
+  ],
 });
 
 App.use(parser())
-  .use(cors())
   .use(graphqlRouter.routes())
   .listen(port, () => {
     console.log(`🚀 Server listening http://127.0.0.1:${port}/ 🚀`);

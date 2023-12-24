@@ -23,7 +23,13 @@ export class ChargeResolver {
     description: "Create a new Charge",
   })
   async createCharge(@Arg("value") value: number): Promise<Charge> {
-    return await chargeService.createCharge({ value, installments: null });
+    return await chargeService.createCharge({
+      value,
+      installments: null,
+      correlationId: null,
+      valueWithCredit: null,
+      pixChargeId: null,
+    });
   }
 
   @Mutation(() => GraphQlChargeModel, {
@@ -33,8 +39,21 @@ export class ChargeResolver {
     @Arg("id") id: string,
     @Arg("installments", { nullable: true }) installments?: number,
     @Arg("value", { nullable: true }) value?: number,
-    @Arg("state", () => ChargeState, { nullable: true }) state?: ChargeState
+    @Arg("state", () => ChargeState, { nullable: true }) state?: ChargeState,
+    @Arg("correlationId", { nullable: true }) correlationId?: string,
+    @Arg("valueWithCredit", { nullable: true }) valueWithCredit?: number,
+    @Arg("pixChargeId", { nullable: true }) pixChargeId?: string
   ) {
-    return await chargeService.updateCharge({ installments, value, state }, id);
+    return await chargeService.updateCharge(
+      {
+        installments,
+        value,
+        state,
+        correlationId,
+        valueWithCredit,
+        pixChargeId,
+      },
+      id
+    );
   }
 }

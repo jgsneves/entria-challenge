@@ -12,6 +12,9 @@ export abstract class Charge {
   value: number;
   state: ChargeState;
   installments: number | null;
+  correlationId: string | null;
+  valueWithCredit: number | null;
+  pixChargeId: string | null;
 }
 
 export const ChargeModel = mongoose.model<Charge>("Charge", chargeSchema);

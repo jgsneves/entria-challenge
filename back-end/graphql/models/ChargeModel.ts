@@ -22,4 +22,13 @@ export class ChargeModel implements Charge {
 
   @Field()
   value: number;
+
+  @Field({ nullable: true })
+  correlationId: string;
+
+  @Field({ nullable: true })
+  valueWithCredit: number;
+
+  @Field({ nullable: true })
+  pixChargeId: string;
 }

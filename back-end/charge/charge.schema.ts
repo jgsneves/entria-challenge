@@ -8,4 +8,7 @@ export const chargeSchema = new Schema<ChargeSchema>({
   value: Number,
   state: String,
   installments: Number,
+  correlationId: Number,
+  valueWithCredit: Number,
+  pixChargeId: String,
 });

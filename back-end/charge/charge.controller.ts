@@ -34,11 +34,7 @@ export class ChargeController {
     @Body() updateChargeDto: UpdateChargeDto,
     @Param("id") id: string
   ): Promise<Charge> {
-    const teste = await chargeService.updateCharge(updateChargeDto, id);
-
-    const bla = teste.toObject();
-
-    return bla;
+    return (await chargeService.updateCharge(updateChargeDto, id)).toObject();
   }
 
   @Post()
@@ -49,7 +45,13 @@ export class ChargeController {
       const { value } = createChargeScheme.parse(createChargeDto);
 
       return (
-        await chargeService.createCharge({ value, installments: null })
+        await chargeService.createCharge({
+          value,
+          installments: null,
+          correlationId: null,
+          valueWithCredit: null,
+          pixChargeId: null,
+        })
       ).toObject();
     } catch (error) {
       throw new BadRequestError(JSON.stringify(error));
