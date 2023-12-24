@@ -24,7 +24,7 @@ export const Stepper = ({ index, steps }: Props) => {
       index={activeStep}
       orientation="vertical"
       colorScheme="green"
-      height="70px"
+      height={`${35 * steps.length}px`}
       size="sm"
       gap="0"
     >
