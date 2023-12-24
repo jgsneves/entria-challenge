@@ -2,6 +2,8 @@
 
 Este repositório implementa uma solução para o desafio proposto de criar uma feature de Pix Parcelado.
 
+![image (8)](https://user-images.githubusercontent.com/2005841/208023052-ce50a746-df80-4687-9430-eab399eabd5a.png)
+
 ## O Problema
 
 Como possibilitar ao usuário o pagamento de uma cobrança PIX através de crédito bancário? O lojista/recebedor receberá o pagamento em D+0, porém o usuário/pagador efetuará o pagamento em parcelas
