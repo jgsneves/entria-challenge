@@ -13,12 +13,34 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Stepper } from "../../Stepper";
+import { useUserData } from "../../../hooks/use-user-data";
+import { CurrencyUtils } from "../../../utils/CurrencyUtils";
 
-export const CreditCardStage = () => {
+interface Props {
+  creditInstallments: number;
+  installmentValue: number;
+  correlationId: string;
+  totalValue: number;
+  steps: string[];
+}
+
+export const CreditCardStage = ({
+  creditInstallments,
+  installmentValue,
+  totalValue,
+  steps,
+  correlationId,
+}: Props) => {
+  const { name } = useUserData();
+
+  const formattedInstallmentValue =
+    CurrencyUtils.formatCurrency(installmentValue);
+  const formatedTotalValue = CurrencyUtils.formatCurrency(totalValue);
+
   return (
     <Flex flexDirection="column" alignItems="center" maxW={400} mx="auto">
       <Text as="b" textAlign="center" py={6} fontSize="large">
-        João, pague o restante em 1x no cartão
+        {name}, pague o restante em {creditInstallments}x no cartão
       </Text>
 
       <form>
@@ -49,7 +71,9 @@ export const CreditCardStage = () => {
         <FormLabel mr={0}>
           Parcelas
           <Select>
-            <option>1x de R$ 15.300,00</option>
+            <option>
+              {creditInstallments}x de R$ {formattedInstallmentValue}
+            </option>
           </Select>
         </FormLabel>
 
@@ -72,14 +96,17 @@ export const CreditCardStage = () => {
         Prazo de pagamento:
       </Text>
       <Text fontWeight={700} fontSize="medium">
-        15/12/2021 - 08:17
+        {new Date().toLocaleString()}
       </Text>
 
       <Flex mt={5} w="100%" justifyContent="space-between">
-        <Stepper index={1} steps={["1 entrada no Pix", "2 no cartão"]} />
+        <Stepper index={2} steps={steps} />
         <Flex direction="column" justifyContent="space-between">
-          <Text fontWeight={700}>R$ 15.300,00</Text>
-          <Text fontWeight={700}>R$ 15.300,00</Text>
+          {steps.map((installment) => (
+            <Text key={installment} fontWeight={700}>
+              R$ {formattedInstallmentValue}
+            </Text>
+          ))}
         </Flex>
       </Flex>
 
@@ -87,7 +114,7 @@ export const CreditCardStage = () => {
 
       <Flex w="100%" justifyContent="space-between">
         <Text>CET: 0,5%</Text>
-        <Text>Total: R$ 30.600,00</Text>
+        <Text>Total: R$ {formatedTotalValue}</Text>
       </Flex>
 
       <Accordion allowToggle w="100%" mt={5}>
@@ -106,7 +133,7 @@ export const CreditCardStage = () => {
         Identificador:
       </Text>
       <Text fontWeight={700} fontSize="medium">
-        9903fd8d-bc4a-4fa1-b21f-0919e2988f4c
+        {correlationId}
       </Text>
     </Flex>
   );
