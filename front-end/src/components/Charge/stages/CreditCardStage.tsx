@@ -100,7 +100,7 @@ export const CreditCardStage = ({
       </Text>
 
       <Flex mt={5} w="100%" justifyContent="space-between">
-        <Stepper index={2} steps={steps} />
+        <Stepper index={1} steps={steps} />
         <Flex direction="column" justifyContent="space-between">
           {steps.map((installment) => (
             <Text key={installment} fontWeight={700}>

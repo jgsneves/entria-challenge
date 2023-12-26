@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2adcabf4e9185e202ce5005ccbce9c66>>
+ * @generated SignedSource<<fe15688f334c0078f994ab559e29a07d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -84,13 +84,6 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "correlationId",
-        "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
         "name": "valueWithCredit",
         "storageKey": null
       },
@@ -99,6 +92,13 @@ v1 = [
         "args": null,
         "kind": "ScalarField",
         "name": "pixChargeId",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "correlationId",
         "storageKey": null
       }
     ],
@@ -123,16 +123,16 @@ return {
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "9017e76392614f6f09f1a85f461033d8",
+    "cacheID": "bf84f0f7c3301f1a21b31e71ce5347dd",
     "id": null,
     "metadata": {},
     "name": "ChargeByIdQuery",
     "operationKind": "query",
-    "text": "query ChargeByIdQuery(\n  $chargeId: String!\n) {\n  getChargeById(id: $chargeId) {\n    _id\n    installments\n    state\n    value\n    correlationId\n    valueWithCredit\n    pixChargeId\n  }\n}\n"
+    "text": "query ChargeByIdQuery(\n  $chargeId: String!\n) {\n  getChargeById(id: $chargeId) {\n    _id\n    installments\n    state\n    value\n    valueWithCredit\n    pixChargeId\n    correlationId\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "446858046157d79474090de3c691ce1d";
+(node as any).hash = "de84dda4349f7fb20b07791841a8d71e";
 
 export default node;

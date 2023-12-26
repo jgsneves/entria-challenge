@@ -67,7 +67,7 @@ export const InitialStage = ({
       charge: { identifier },
     } = await openPixService.createPixCharge({
       correlationID: uuid(),
-      value: selectedOption.payment.value.toString(),
+      value: selectedOption.payment.value.toString().replace(".", ""),
     });
 
     commit({

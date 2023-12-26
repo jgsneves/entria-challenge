@@ -16,6 +16,8 @@ import { useUserData } from "../../../hooks/use-user-data";
 import { CurrencyUtils } from "../../../utils/CurrencyUtils";
 import { useGetOnePixCharge } from "../../../hooks/use-get-one-pix-charge";
 import { Loading } from "../../Loading";
+import { useNavigate } from "react-router-dom";
+import { useWebsocketConnection } from "../../../hooks/use-websocket-connection";
 
 interface Props {
   pixValue: number;
@@ -35,6 +37,15 @@ export const PixStage = ({
   const { name } = useUserData();
   const { data, isLoading } = useGetOnePixCharge(pixChargeId);
   const toast = useToast();
+  const messagePayload = useWebsocketConnection();
+  const navigate = useNavigate();
+
+  if (
+    messagePayload?.event === "OPENPIX:CHARGE_COMPLETED" &&
+    messagePayload?.pixChargeId === pixChargeId
+  ) {
+    navigate(0);
+  }
 
   if (isLoading || !data) {
     return <Loading />;
