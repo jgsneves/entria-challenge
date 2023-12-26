@@ -1,5 +1,5 @@
 import { InternalServerError, NotFoundError } from "routing-controllers";
-import { Charge, ChargeModel } from "./charge.model";
+import { Charge, ChargeModel, ChargeState } from "./charge.model";
 import { Model } from "mongoose";
 
 export class ChargeRepository {
@@ -38,6 +38,24 @@ export class ChargeRepository {
       const charge = await this.chargeMongoDbModel.findOneAndUpdate(
         { _id: id },
         updateChargeDto,
+        { new: true }
+      );
+      if (!charge) throw new NotFoundError();
+
+      return charge;
+    } catch (error) {
+      throw new InternalServerError(JSON.stringify(error));
+    }
+  }
+
+  public async changeChargeStateByPixChargeId(
+    state: ChargeState,
+    pixChargeId: string
+  ) {
+    try {
+      const charge = await this.chargeMongoDbModel.findOneAndUpdate(
+        { pixChargeId },
+        { state },
         { new: true }
       );
       if (!charge) throw new NotFoundError();

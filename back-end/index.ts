@@ -9,11 +9,26 @@ import { useKoaServer } from "routing-controllers";
 import { AuthController } from "./auth/auth.controller";
 import { ChargeController } from "./charge/charge.controller";
 import { OpenFinanceController } from "./open-finance/open-finance.controller";
+import websockify from "koa-websocket";
+import { WebhooksController } from "./webhooks/webhooks.controller";
 
-const App = new Koa();
+export const App = websockify(new Koa());
 const port = 8000;
 
 App.use(cors());
+
+App.ws.use(async (_, next) => {
+  const socket = await next();
+  console.log("WebSocket connection established");
+
+  socket.on("message", (message: any) => {
+    console.log("Received:", message);
+  });
+
+  socket.on("close", () => {
+    console.log("WebSocket connection closed");
+  });
+});
 
 useKoaServer(App, {
   controllers: [
@@ -21,6 +36,7 @@ useKoaServer(App, {
     AuthController,
     ChargeController,
     OpenFinanceController,
+    WebhooksController,
   ],
 });
 

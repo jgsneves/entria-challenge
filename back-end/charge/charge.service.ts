@@ -35,6 +35,16 @@ export class ChargeService {
 
     return result;
   }
+
+  public async updateChargeStateByPixChargeId(
+    state: ChargeState,
+    pixChargeId: string
+  ) {
+    return await this.chargeRepository.changeChargeStateByPixChargeId(
+      state,
+      pixChargeId
+    );
+  }
 }
 
 export const chargeService = new ChargeService(chargeRepository);
