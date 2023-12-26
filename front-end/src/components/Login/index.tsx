@@ -3,7 +3,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Button,
   Box,
   FormErrorMessage,
   useToast,
@@ -15,6 +14,7 @@ import { loggerService } from "../../services/logger-service";
 import { AUTH_TOKEN_COOKIE } from "../../constants/cookies";
 import { addDaysToCurrentDate } from "../../utils/DateUtils";
 import { apiService } from "../../services/api-service";
+import { Button } from "../Button";
 
 interface FormData {
   email: string;
@@ -43,6 +43,8 @@ export const Login = () => {
     values: FormData,
     helpers: FormikHelpers<FormData>
   ) => {
+    helpers.setSubmitting(true);
+
     apiService
       .signIn(values)
       .then(
@@ -107,12 +109,8 @@ export const Login = () => {
               <Button
                 type="submit"
                 width="100%"
-                backgroundColor="primary.300"
-                color="white"
-                _hover={{
-                  bgColor: "primary.100",
-                }}
                 isLoading={isSubmitting}
+                isDisabled={isSubmitting}
               >
                 Entrar
               </Button>

@@ -10,6 +10,7 @@ import { ChargeController } from "./charge/charge.controller";
 import { OpenFinanceController } from "./open-finance/open-finance.controller";
 import websockify from "koa-websocket";
 import { WebhooksController } from "./webhooks/webhooks.controller";
+import { CreditCardController } from "./credit-card/credit-card.controller";
 
 export const App = websockify(new Koa());
 const port = 8000;
@@ -35,6 +36,7 @@ useKoaServer(App, {
     ChargeController,
     OpenFinanceController,
     WebhooksController,
+    CreditCardController,
   ],
 });
 

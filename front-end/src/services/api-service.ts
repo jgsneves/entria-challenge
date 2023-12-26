@@ -27,6 +27,14 @@ interface GetCreditConditionPayload {
   creditValue: number;
 }
 
+export interface PayWithCreditCardPayload {
+  name: string;
+  cpf: string;
+  creditCardNumber: string;
+  creditCardExpiration: string;
+  cvv: string;
+}
+
 export class ApiService {
   public async signIn(payload: LoginPayload) {
     return axios
@@ -47,6 +55,17 @@ export class ApiService {
         },
       }
     );
+  }
+
+  public async payWithCreditCard(
+    payload: PayWithCreditCardPayload,
+    token: string
+  ) {
+    return axios.post("http://127.0.0.1:8000/credit-card", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
 

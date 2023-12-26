@@ -4,13 +4,12 @@ import { PixStage } from "./stages/PixStage";
 import { CreditCardStage } from "./stages/CreditCardStage";
 import { graphql } from "relay-runtime";
 import { useLazyLoadQuery } from "react-relay";
-import {
-  ChargeByIdQuery,
-  ChargeState,
-} from "./__generated__/ChargeByIdQuery.graphql";
+import { ChargeByIdQuery } from "./__generated__/ChargeByIdQuery.graphql";
 import { useParams } from "react-router-dom";
 import { useCreditConditionQuery } from "../../hooks/use-credit-condition-query";
 import { Loading } from "../Loading";
+import { buildStepString } from "./utils/buildStepString";
+import { PaidStage } from "./stages/PaidStage";
 
 interface OptionPayment {
   amount: number;
@@ -37,26 +36,6 @@ const query = graphql`
   }
 `;
 
-const buildStepString = (installments: number | null | undefined) => {
-  const result: string[] = [];
-
-  if (installments === 1 || !installments) {
-    result.push("Pagamento no PIX");
-
-    return result;
-  }
-
-  for (let index = 1; index <= installments; index++) {
-    if (index === 1) {
-      result.push(`${index}ª parcela no PIX`);
-    } else {
-      result.push(`${index}ª parcela no cartão`);
-    }
-  }
-
-  return result;
-};
-
 export const Charge = () => {
   const { chargeId } = useParams();
 
@@ -74,8 +53,6 @@ export const Charge = () => {
     chargeId: chargeId!,
   });
 
-  const steps = buildStepString(installments);
-
   const oneInstallmentPaymentOption = {
     id: 0,
     payment: {
@@ -89,33 +66,11 @@ export const Charge = () => {
     oneInstallmentPaymentOption
   );
 
-  const [currentStage] = useState<ChargeState>(state);
+  const { data, isLoading } = useCreditConditionQuery(value, state);
 
-  const { data, isLoading } = useCreditConditionQuery(value);
-
-  const handleOptionOnClick = (option: Option) => {
-    setSelectedOption(option);
-  };
-
-  if (isLoading || !data) {
-    return <Loading />;
-  }
-
-  if (!isLoading && !data) {
-    return <h1>Não há informações sobre esta cobrança.</h1>;
-  }
-
-  const options: Option[] = data.installments.map((installment) => ({
-    id: installment.total,
-    payment: {
-      amount: installment.amount,
-      value: installment.value,
-    },
-    total: installment.total,
-  }));
-
-  if (currentStage === "PIX_PAYMENT") {
+  if (state === "PIX_PAYMENT") {
     const pixValue = valueWithCredit! / installments!;
+    const steps = buildStepString(installments);
 
     return (
       <PixStage
@@ -128,12 +83,14 @@ export const Charge = () => {
     );
   }
 
-  if (currentStage === "CREDIT_CARD_PAYMENT") {
+  if (state === "CREDIT_CARD_PAYMENT") {
     const installmentValue = valueWithCredit! / installments!;
     const creditInstallments = installments! - 1;
+    const steps = buildStepString(installments);
 
     return (
       <CreditCardStage
+        chargeId={id}
         creditInstallments={creditInstallments}
         installmentValue={installmentValue}
         steps={steps}
@@ -143,14 +100,35 @@ export const Charge = () => {
     );
   }
 
-  return (
-    <InitialStage
-      chargeValue={value}
-      chargeId={id}
-      handleOptionOnClick={handleOptionOnClick}
-      options={options}
-      selectedOption={selectedOption}
-      oneInstallmentPaymentOption={oneInstallmentPaymentOption}
-    />
-  );
+  if (state === "INITIAL") {
+    if (isLoading || !data) {
+      return <Loading />;
+    }
+
+    const handleOptionOnClick = (option: Option) => {
+      setSelectedOption(option);
+    };
+
+    const options: Option[] = data.installments.map((installment) => ({
+      id: installment.total,
+      payment: {
+        amount: installment.amount,
+        value: installment.value,
+      },
+      total: installment.total,
+    }));
+
+    return (
+      <InitialStage
+        chargeValue={value}
+        chargeId={id}
+        handleOptionOnClick={handleOptionOnClick}
+        options={options}
+        selectedOption={selectedOption}
+        oneInstallmentPaymentOption={oneInstallmentPaymentOption}
+      />
+    );
+  }
+
+  return <PaidStage />;
 };

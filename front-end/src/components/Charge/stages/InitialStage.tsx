@@ -1,17 +1,18 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { Payment } from "../../Payment";
 import { PaymentType } from "../../Payment/PaymentType";
 import { PaymentOption } from "../../PaymentOption";
 import { Option } from "..";
 import { CurrencyUtils } from "../../../utils/CurrencyUtils";
-import { graphql } from "relay-runtime";
 import { useMutation } from "react-relay";
-import { InitialStageMutation } from "./__generated__/InitialStageMutation.graphql";
 import { loggerService } from "../../../services/logger-service";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../../../hooks/use-user-data";
 import { openPixService } from "../../../services/open-pix-service";
 import { v4 as uuid } from "uuid";
+import { changeChargeMutation } from "../graphql/mutations/changeCharge";
+import { changeChargeMutation as ChangeChargeMutation } from "../graphql/mutations/__generated__/changeChargeMutation.graphql";
+import { Button } from "../../Button";
 
 interface Props {
   chargeValue: number;
@@ -22,32 +23,6 @@ interface Props {
   options: Option[];
 }
 
-const changeChargeStateMutation = graphql`
-  mutation InitialStageMutation(
-    $state: ChargeState
-    $installments: Float
-    $id: String!
-    $valueWithCredit: Float
-    $pixChargeId: String
-  ) {
-    updateCharge(
-      state: $state
-      installments: $installments
-      id: $id
-      valueWithCredit: $valueWithCredit
-      pixChargeId: $pixChargeId
-    ) {
-      _id
-      installments
-      state
-      value
-      correlationId
-      valueWithCredit
-      pixChargeId
-    }
-  }
-`;
-
 export const InitialStage = ({
   chargeValue,
   chargeId,
@@ -56,9 +31,8 @@ export const InitialStage = ({
   selectedOption,
   oneInstallmentPaymentOption,
 }: Props) => {
-  const [commit, isInFlight] = useMutation<InitialStageMutation>(
-    changeChargeStateMutation
-  );
+  const [commit, isInFlight] =
+    useMutation<ChangeChargeMutation>(changeChargeMutation);
   const navigate = useNavigate();
   const { name } = useUserData();
 
@@ -131,17 +105,10 @@ export const InitialStage = ({
       )}
 
       <Button
-        backgroundColor="primary.300"
-        color="white"
-        _hover={{
-          bgColor: "primary.100",
-        }}
-        _disabled={{
-          bgColor: "gray.300",
-        }}
         mt={7}
         onClick={handleContinueOnClick}
         disabled={isInFlight}
+        isLoading={isInFlight}
       >
         Continuar
       </Button>

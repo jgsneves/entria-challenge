@@ -5,6 +5,8 @@ import { WooviLogo } from "./components/WooviLogo";
 import { useCookies } from "react-cookie";
 import { AUTH_TOKEN_COOKIE } from "./constants/cookies";
 import { Login } from "./components/Login";
+import { Suspense } from "react";
+import { Loading } from "./components/Loading";
 
 function App() {
   const [cookies] = useCookies([AUTH_TOKEN_COOKIE]);
@@ -21,7 +23,9 @@ function App() {
     >
       <Header />
       <Box as="main" minH="85vh">
-        <Charge />
+        <Suspense fallback={<Loading />}>
+          <Charge />
+        </Suspense>
       </Box>
       <Flex as="footer" alignItems="center" mx="auto" py={5}>
         <Text textAlign="center" mr={2} color="gray.400" fontSize="smaller">
