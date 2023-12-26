@@ -25,20 +25,8 @@ type Mutation {
   """Create a new Charge"""
   createCharge(value: Float!): ChargeModel!
 
-  """Create a new Pix"""
-  createPix(creditParty: String!, debitParty: String!, value: Float!): PixModel!
-
   """Update a Charge"""
   updateCharge(correlationId: String, id: String!, installments: Float, pixChargeId: String, state: ChargeState, value: Float, valueWithCredit: Float): ChargeModel!
-}
-
-"""A PIX instant financial transfer"""
-type PixModel {
-  _id: String!
-  creditParty: String!
-  datetime: String!
-  debitParty: String!
-  value: Float!
 }
 
 type Query {
@@ -47,10 +35,4 @@ type Query {
 
   """Retrieves all Charges"""
   getCharges: [ChargeModel!]!
-
-  """Retrieves a Pix by id."""
-  getPixById(id: String!): PixModel!
-
-  """Retrieves all Pixes"""
-  getPixes: [PixModel!]!
 }

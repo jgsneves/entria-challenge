@@ -3,7 +3,6 @@ import "dotenv/config";
 import Koa from "koa";
 import parser from "koa-bodyparser";
 import cors from "@koa/cors";
-import { PixController } from "./pix/pix.controller";
 import graphqlRouter from "./graphql/router";
 import { useKoaServer } from "routing-controllers";
 import { AuthController } from "./auth/auth.controller";
@@ -32,7 +31,6 @@ App.ws.use(async (_, next) => {
 
 useKoaServer(App, {
   controllers: [
-    PixController,
     AuthController,
     ChargeController,
     OpenFinanceController,

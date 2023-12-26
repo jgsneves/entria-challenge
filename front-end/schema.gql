@@ -23,9 +23,6 @@ enum ChargeState {
 }
 
 type Mutation {
-  """Create a new Pix"""
-  createPix(value: Float!, debitParty: String!, creditParty: String!): PixModel!
-
   """Create a new Charge"""
   createCharge(value: Float!): ChargeModel!
 
@@ -33,22 +30,7 @@ type Mutation {
   updateCharge(pixChargeId: String, valueWithCredit: Float, correlationId: String, state: ChargeState, value: Float, installments: Float, id: String!): ChargeModel!
 }
 
-"""A PIX instant financial transfer"""
-type PixModel {
-  _id: String!
-  creditParty: String!
-  datetime: String!
-  debitParty: String!
-  value: Float!
-}
-
 type Query {
-  """Retrieves all Pixes"""
-  getPixes: [PixModel!]!
-
-  """Retrieves a Pix by id."""
-  getPixById(id: String!): PixModel!
-
   """Retrieves all Charges"""
   getCharges: [ChargeModel!]!
 
